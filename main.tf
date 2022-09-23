@@ -53,6 +53,9 @@ resource "confluent_api_key" "rvoon-kafka-api-key" {
       id = confluent_environment.tfenv.id
     }
   }
+  depends_on = [
+    confluent_role_binding.rvoon-cloud-cluster-admin
+  ]
 }
 
 resource "confluent_kafka_topic" "orders" {
