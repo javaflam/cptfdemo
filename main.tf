@@ -7,13 +7,8 @@ terraform {
   }
 }
 
-/*provider "confluent" {
-  cloud_api_key    = var.confluent_cloud_api_key
-  cloud_api_secret = var.confluent_cloud_api_secret
-}*/
-
-resource "confluent_environment" "test_env" {
-  display_name = "test_env"
+resource "confluent_environment" "tfenv" {
+  display_name = "Terraform"
   lifecycle {
     prevent_destroy = true
   }
@@ -26,7 +21,7 @@ resource "confluent_kafka_cluster" "basic" {
   region       = "ap-southeast-1"
   basic {}
   environment {
-    id = confluent_environment.test_env.id
+    id = confluent_environment.tfenv.id
   }
 }
 
@@ -55,12 +50,9 @@ resource "confluent_api_key" "rvoon-kafka-api-key" {
     kind        = confluent_kafka_cluster.basic.kind
 
     environment {
-      id = confluent_environment.test_env.id
+      id = confluent_environment.tfenv.id
     }
   }
-  depends_on = [
-    confluent_role_binding.rvoon-cloud-cluster-admin
-  ]
 }
 
 resource "confluent_kafka_topic" "orders" {
