@@ -1,4 +1,7 @@
 terraform {
+  backend "local" {
+    path = "/home/ubuntu/tfstate/demo/terraform.tfstate"
+  }
   required_providers {
     confluent = {
       source  = "confluentinc/confluent"
